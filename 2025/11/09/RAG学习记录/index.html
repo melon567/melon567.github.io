@@ -19,21 +19,24 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="我发现事情分为两种，  一种是你知道自己应该去做，但是当下自己现在不愿意做的事情。  另一种是自己当下很感兴趣的事情。   这两种事情都应该去做，但是时间上是需要统筹规划的。">
+    <meta name="description" content="导包 ! pip install langchain openai chromadb tiktoken langchain-openai langchain-community ! pip install langchain-text-splitters ! pip install pypdf ! pip install dashscope ! pip install langchain-cla">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kkk">
-<meta property="og:url" content="http://example.com/2025/11/07/kkk/index.html">
+<meta property="og:title" content="rag学习记录">
+<meta property="og:url" content="http://example.com/2025/11/09/RAG%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="麻瓜のblog">
-<meta property="og:description" content="我发现事情分为两种，  一种是你知道自己应该去做，但是当下自己现在不愿意做的事情。  另一种是自己当下很感兴趣的事情。   这两种事情都应该去做，但是时间上是需要统筹规划的。">
+<meta property="og:description" content="导包 ! pip install langchain openai chromadb tiktoken langchain-openai langchain-community ! pip install langchain-text-splitters ! pip install pypdf ! pip install dashscope ! pip install langchain-cla">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-11-07T09:01:05.000Z">
-<meta property="article:modified_time" content="2025-11-08T07:53:20.844Z">
+<meta property="og:image" content="https://tttpora.oss-cn-guangzhou.aliyuncs.com/image-20251101000206999.png">
+<meta property="article:published_time" content="2025-11-09T15:45:45.000Z">
+<meta property="article:modified_time" content="2025-11-09T15:52:25.364Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tttpora.oss-cn-guangzhou.aliyuncs.com/image-20251101000206999.png">
   
   
   
-  <title>kkk - 麻瓜のblog</title>
+  <title>rag学习记录 - 麻瓜のblog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -210,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="kkk"></span>
+            <span id="subtitle" data-typed-text="rag学习记录"></span>
           
         </div>
 
@@ -221,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-11-07 17:01" pubdate>
-          2025年11月7日 下午
+        <time datetime="2025-11-09 23:45" pubdate>
+          2025年11月9日 晚上
         </time>
       </span>
     
@@ -233,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          74 字
+          401 字
         
       </span>
     
@@ -244,7 +247,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -281,13 +284,96 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">kkk</h1>
+            <h1 id="seo-header">rag学习记录</h1>
             
             
               <div class="markdown-body">
                 
-                <p>  我发现事情分为两种，<br>  一种是你知道自己应该去做，但是当下自己现在不愿意做的事情。<br>  另一种是自己当下很感兴趣的事情。</p>
-<p>  这两种事情都应该去做，但是时间上是需要统筹规划的。</p>
+                <p><img src="https://tttpora.oss-cn-guangzhou.aliyuncs.com/image-20251101000206999.png" srcset="/img/loading.gif" lazyload alt="image-20251101000206999"></p>
+<h1 id="导包"><a href="#导包" class="headerlink" title="导包"></a>导包</h1><div class="code-wrapper"><pre><code class="hljs python">
+! pip install langchain openai chromadb tiktoken langchain-openai langchain-community
+! pip install langchain-text-splitters
+! pip install pypdf
+! pip install dashscope
+! pip install langchain-classic</code></pre></div>
+
+<h1 id="加载pdf文档为ducoment"><a href="#加载pdf文档为ducoment" class="headerlink" title="加载pdf文档为ducoment"></a>加载pdf文档为ducoment</h1><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_text_splitters <span class="hljs-keyword">import</span> RecursiveCharacterTextSplitter
+<span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> PyPDFLoader
+<span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span>  Chroma
+
+<span class="hljs-comment"># 加载pdf</span>
+loader = PyPDFLoader(<span class="hljs-string">&quot;/Users/jhx/Library/Mobile Documents/com~apple~CloudDocs/code/lawnote1.pdf&quot;</span>)
+data = loader.load() <span class="hljs-comment">#data是一个list,里面每一个元素都是document对象,每个元素就是1页的内容</span></code></pre></div>
+
+<p>加载pdf为data列表，里面元素都是一个document，按页来分的，有22页，就有22个document</p>
+<h1 id="对document进行切割为chunk"><a href="#对document进行切割为chunk" class="headerlink" title="对document进行切割为chunk"></a>对document进行切割为chunk</h1><div class="code-wrapper"><pre><code class="hljs python">text_splitter = RecursiveCharacterTextSplitter(chunk_size=<span class="hljs-number">500</span>, chunk_overlap=<span class="hljs-number">0</span>) 
+splits = text_splitter.split_documents(data[:]) 
+<span class="hljs-built_in">len</span>(splits)</code></pre></div>
+
+<p>取data列表中的document元素进行切割，得到切割文本块</p>
+<h1 id="使用embedding将chunk转换为vectordb"><a href="#使用embedding将chunk转换为vectordb" class="headerlink" title="使用embedding将chunk转换为vectordb"></a>使用embedding将chunk转换为vectordb</h1><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> getpass <span class="hljs-keyword">import</span> getpass
+<span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings
+
+<span class="hljs-comment"># 使用嵌入模型embedding</span>
+embedding = DashScopeEmbeddings(
+    model=<span class="hljs-string">&quot;text-embedding-v3&quot;</span>,  <span class="hljs-comment">#</span>
+    dashscope_api_key=<span class="hljs-string">&quot;sk-1ce9c48a8b834d29a7f19e5de787275f&quot;</span>,
+)
+
+<span class="hljs-comment">#得到向量数据库</span>
+vectordb = Chroma.from_documents(documents=splits, embedding=embedding)</code></pre></div>
+
+<h1 id="将query和vectdb进行相似度对比，得到相关文档docs"><a href="#将query和vectdb进行相似度对比，得到相关文档docs" class="headerlink" title="将query和vectdb进行相似度对比，得到相关文档docs"></a>将query和vectdb进行相似度对比，得到相关文档docs</h1><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_classic.retrievers <span class="hljs-keyword">import</span> MultiQueryRetriever
+<span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI
+
+<span class="hljs-comment">#得到llm</span>
+llm = ChatOpenAI(
+    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,
+    model=<span class="hljs-string">&quot;qwen-max&quot;</span>,  
+    openai_api_key=<span class="hljs-string">&quot;sk-1ce9c48a8b834d29a7f19e5de787275f&quot;</span>,
+    temperature=<span class="hljs-number">0</span>
+)
+
+retriever_from_llm = MultiQueryRetriever.from_llm(
+    retriever=vectordb.as_retriever(), 
+    llm=llm
+)
+question = <span class="hljs-string">&quot;抢劫罪的后果有哪些？&quot;</span>
+
+<span class="hljs-comment"># 从向量数据库中invoke回docs</span>
+docs = retriever_from_llm.invoke(<span class="hljs-built_in">input</span>=question)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;检索到 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(docs)&#125;</span> 个相关文档&quot;</span>)
+<span class="hljs-keyword">for</span> i, doc <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(docs):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;文档 <span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>: \n<span class="hljs-subst">&#123;doc.page_content[:<span class="hljs-number">100</span>]&#125;</span>...&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span>*<span class="hljs-number">20</span>)</code></pre></div>
+
+<h1 id="构建template，-llm根据得到的docs和query，重新生成回答text"><a href="#构建template，-llm根据得到的docs和query，重新生成回答text" class="headerlink" title="构建template， llm根据得到的docs和query，重新生成回答text"></a>构建template， llm根据得到的docs和query，重新生成回答text</h1><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> PromptTemplate
+<span class="hljs-keyword">from</span> langchain_classic.chains <span class="hljs-keyword">import</span> LLMChain
+
+
+<span class="hljs-comment"># 创建模版，contexts：docs， query：quesiton</span>
+template = <span class="hljs-string">&quot;&quot;&quot;基于以下提供的内容回答问题，如果内容中不包含问题的答案，请回答“我不知道”</span>
+<span class="hljs-string">内容：</span>
+<span class="hljs-string">&#123;contexts&#125; </span>
+<span class="hljs-string">-------------------------------------</span>
+<span class="hljs-string">问题：</span>
+<span class="hljs-string"> &#123;query&#125;</span>
+<span class="hljs-string">&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># 创建生成prompt</span>
+mulitquery_PROMPT = PromptTemplate(input_variables=[<span class="hljs-string">&quot;query&quot;</span>, <span class="hljs-string">&quot;contexts&quot;</span>], 
+                                   template=template,
+                                   )
+
+<span class="hljs-comment"># Chain</span>
+qa_chain = LLMChain(llm=llm, prompt=mulitquery_PROMPT)
+
+out = qa_chain( inputs=&#123;<span class="hljs-string">&quot;query&quot;</span>: question,  
+                         <span class="hljs-string">&quot;contexts&quot;</span>: <span class="hljs-string">&quot;\n---\n&quot;</span>.join([d.page_content <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> docs]) &#125;
+                         )
+
+out</code></pre></div>
 
                 
               </div>
@@ -297,6 +383,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="print-no-link">#学习记录</a>
+      
+    </div>
+  
 </div>
 
 
@@ -305,8 +398,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>kkk</div>
-      <div>http://example.com/2025/11/07/kkk/</div>
+      <div>rag学习记录</div>
+      <div>http://example.com/2025/11/09/RAG学习记录/</div>
     </div>
     <div class="license-meta">
       
@@ -318,7 +411,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年11月7日</div>
+          <div>2025年11月9日</div>
         </div>
       
       
@@ -350,18 +443,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/11/09/RAG%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="rag学习记录">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">rag学习记录</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/11/05/zsh%E6%8C%87%E4%BB%A4%E6%95%99%E7%A8%8B/" title="mac zsh指令教程">
-                        <span class="hidden-mobile">mac zsh指令教程</span>
+                      <a href="/2025/11/07/kkk/" title="kkk">
+                        <span class="hidden-mobile">kkk</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
